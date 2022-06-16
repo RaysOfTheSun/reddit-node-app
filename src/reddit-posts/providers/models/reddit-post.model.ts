@@ -1,7 +1,10 @@
 export interface RedditPost {
+  id: string;
+  title: string;
   badges: string[];
   upvotes: number;
   posterId: string;
+  threadId: string;
   downvotes: number;
   creationDate: string;
   totalComments: number;
