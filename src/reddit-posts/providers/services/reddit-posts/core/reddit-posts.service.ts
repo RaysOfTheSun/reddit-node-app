@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { RedditPostGetStrategy } from 'src/reddit-posts/providers/constants/reddit-post-get-strategy.enum';
+import { redditPostFetchStrategyToPropertyMap } from 'src/reddit-posts/providers/constants/reddit-post-fetch-strategy-to-property-map.const';
+import { RedditPostFetchStrategy } from 'src/reddit-posts/providers/constants/reddit-post-get-strategy.enum';
 import { RedditPostCreationRequest } from 'src/reddit-posts/providers/models/reddit-post-creation-request.model';
 import { RedditPost } from 'src/reddit-posts/providers/models/reddit-post.model';
 import { RedditPostsMapperService } from '../../reddit-posts-mapper/core/reddit-posts-mapper.service';
@@ -10,30 +11,17 @@ export abstract class RedditPostsService {
 
   constructor(protected redditPostsMapperService: RedditPostsMapperService) {}
 
-  public async getPostsByParams(redditPostGetParams: Record<RedditPostGetStrategy, string>) {
-    if (!redditPostGetParams.postId && !redditPostGetParams.threadId && !redditPostGetParams.userId) {
-      throw new Error('');
-    }
+  public async getPostsByParams(
+    requestValues: Record<RedditPostFetchStrategy, string[]>,
+    fetchStrategy = RedditPostFetchStrategy.BY_THREAD_ID
+  ) {
+    const filterProperty = redditPostFetchStrategyToPropertyMap.get(fetchStrategy);
 
-    if (redditPostGetParams.threadId) {
-      return this.getAllPostsByThreadId(redditPostGetParams.threadId);
-    }
+    const filterValues = Array.isArray(requestValues[filterProperty])
+      ? requestValues[filterProperty]
+      : [requestValues[filterProperty]];
 
-    if (redditPostGetParams.userId) {
-      return this.getPostsByUserId(redditPostGetParams.userId);
-    }
-
-    return this.getPostById(redditPostGetParams.postId);
-  }
-
-  public getPostById(postId: string) {}
-
-  public getPostsByUserId(userId: string) {
-    return `posts for ${userId}`;
-  }
-
-  public getAllPostsByThreadId(threadId: string) {
-    return this.posts.filter((post) => post.threadId === threadId);
+    return this.posts.filter((redditPost) => filterValues.includes(redditPost[filterProperty]));
   }
 
   public async createPostWithRequest(postCreationRequest: RedditPostCreationRequest) {

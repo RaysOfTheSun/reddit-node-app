@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { RedditPostsModule } from './reddit-posts/reddit-posts.module';
-import { RedditThreadsModule } from './reddit-threads/reddit-threads.module';
 import { RedditUsersModule } from './reddit-users/reddit-users.module';
+import { RedditForumsModule } from './reddit-forums/reddit-forums.module';
 
 @Module({
-  imports: [RedditPostsModule, RedditThreadsModule, RedditUsersModule]
+  imports: [RedditPostsModule, RedditUsersModule, RedditForumsModule]
 })
 export class AppModule {}

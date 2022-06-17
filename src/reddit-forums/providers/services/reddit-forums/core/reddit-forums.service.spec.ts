@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RedditThreadsService } from './reddit-threads.service';
+import { RedditForumsService } from './reddit-forums.service';
 
-describe('RedditThreadsService', () => {
-  let service: RedditThreadsService;
+describe('RedditForumsService', () => {
+  let service: RedditForumsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RedditThreadsService],
+      providers: [RedditForumsService],
     }).compile();
 
-    service = module.get<RedditThreadsService>(RedditThreadsService);
+    service = module.get<RedditForumsService>(RedditForumsService);
   });
 
   it('should be defined', () => {

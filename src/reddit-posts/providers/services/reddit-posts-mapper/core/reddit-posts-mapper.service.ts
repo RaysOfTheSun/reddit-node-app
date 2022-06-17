@@ -16,7 +16,7 @@ export class RedditPostsMapperService {
       totalComments: 0,
       creationDate: DateTime.now().toJSON(),
       title: redditPostCreationRequest.title,
-      threadId: redditPostCreationRequest.threadId
+      forumId: redditPostCreationRequest.forumId
     };
   }
 }
