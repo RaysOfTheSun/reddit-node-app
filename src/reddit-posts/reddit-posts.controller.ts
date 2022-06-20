@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { RedditPostFetchStrategy } from './providers/constants/reddit-post-get-strategy.enum';
 import { RedditPostCreationRequest } from './providers/models/reddit-post-creation-request.model';
+import { RedditPostReplyRequest } from './providers/models/reddit-post-reply-request.model';
 import { RedditPostsService } from './providers/services/reddit-posts/core/reddit-posts.service';
 
 @Controller('posts')
@@ -20,5 +21,10 @@ export class RedditPostsController {
   @Post()
   public addPostsWithRequest(@Body() postCreationRequest: RedditPostCreationRequest) {
     return this.redditPostsService.createPostWithRequest(postCreationRequest);
+  }
+
+  @Post('reply')
+  public replyToPostWithRequest(@Body() postReplyRequest: RedditPostReplyRequest) {
+    return this.redditPostsService.replyToPostWithRequest(postReplyRequest);
   }
 }
